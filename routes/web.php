@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MemberController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -10,9 +11,9 @@ Route::get('/', function () {
 //    return view('users');
 //})->name('users');
 
-Route::get('/users',[ProfileController::class,'show'])->name('users');
+Route::get('/users',[ProfileController::class,'show'])->name('users')->middleware('auth');
 
-Route::get('/members/search', [MemberController::class, 'search'])->name('members.search');
+Route::get('/users/search', [MemberController::class, 'search'])->name('members.search');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
