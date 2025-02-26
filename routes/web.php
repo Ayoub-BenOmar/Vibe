@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\FriendRequestController;
+use App\Http\Controllers\FriendsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -16,6 +17,9 @@ Route::get('/users',[ProfileController::class,'show'])->name('users')->middlewar
 Route::get('/users/search', [MemberController::class, 'search'])->name('members.search');
 Route::post('users/send_request/{user_id}', [FriendRequestController::class, 'send_request'])->name('send_request');
 Route::get('/requests', [FriendRequestController::class, 'show_requests'])->name('show_requests');
+Route::post('/requests/accept/{user_id}', [FriendRequestController::class, 'accept_request'])->name('accept_request');
+Route::post('/request/reject/{user_id}', [FriendRequestController::class, 'reject_request'])->name('reject_request');
+Route::get('/friends', [FriendsController::class, 'show_friends'])->name('show_friends');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

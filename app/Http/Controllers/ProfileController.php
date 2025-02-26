@@ -59,7 +59,7 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
     public function show(Request $request): View{
-       $users= User::all();
+       $users= User::where('users.id', '!=', auth()->id())->get();
         return view('users', compact('users'));
     }
 }

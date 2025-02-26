@@ -26,6 +26,11 @@
                         {{ __('Requests') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('show_friends')" :active="request()->routeIs('show_friends')">
+                        {{ __('Friends') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->

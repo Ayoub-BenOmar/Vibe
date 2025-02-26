@@ -51,8 +51,7 @@
                                     <p class="text-gray-500 dark:text-gray-400">{{ $user->name }}</p>
                                 </div>
 
-                                <!-- Follow Button -->
-
+                                <!-- Add Friend Button -->
                                 <form action="/users/send_request/{{$user->id}}" method="POST" class="inline">
                                     @csrf <!-- CSRF token for security -->
                                     <button type="submit" class="flex items-center justify-right gap-2 px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 bg-indigo-500 text-black hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-700 w-full sm:w-auto">

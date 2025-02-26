@@ -32,7 +32,6 @@ class FriendRequestController extends Controller
         if($sender_id == $receiver_id){
 //            echo("You can't send request to yourself");
             return back()->with("error", "You can't send request to yourself");
-
         }
 
          DB::table('friend_request')->insert([
@@ -43,10 +42,26 @@ class FriendRequestController extends Controller
     }
 
     public function show_requests(){
-        $requests = friend_request::where('receiver_id', Auth::id())
-            ->where('status', ['pending'])
-            ->where('sender')
+        $requests = friend_request::where('friend_request.receiver_id', Auth::id())
+            ->where('friend_request.status', 'pending')
+            ->join('users', 'friend_request.sender_id', '=', 'users.id')
+            ->select('friend_request.*', 'users.name as sender_name', 'users.username as sender_username', 'users.profile_photo as sender_image', 'users.id as sender_id')
             ->get();
+//        dd($requests);
         return view('requests', compact('requests'));
+    }
+
+    public function accept_request($user_id){
+        DB::table('friend_request')->where('receiver_id', Auth::id())
+            ->where('sender_id', $user_id)
+            ->update(['status' => 'accepted']);
+        return back()->with("success", "request accepted");
+    }
+
+    public function reject_request($user_id){
+        DB::table('friend_request')->where('receiver_id', Auth::id())
+            ->where('sender_id', $user_id)
+            ->update(['status' => 'rejected']);
+        return back()->with('success', 'request rejected');
     }
 }
