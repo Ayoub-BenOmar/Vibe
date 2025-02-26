@@ -8,19 +8,6 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-{{--            <div class="mb-6">--}}
-{{--                <div class="relative flex items-center">--}}
-{{--                    <input--}}
-{{--                        type="search"--}}
-{{--                        name="search"--}}
-{{--                        class="w-full rounded-full pl-12 pr-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800"--}}
-{{--                        placeholder="Search members..."--}}
-{{--                    >--}}
-{{--                    <svg class="w-4 h-4 text-gray-500 left-4 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">--}}
-{{--                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />--}}
-{{--                    </svg>--}}
-{{--                </div>--}}
-{{--            </div>--}}
             <form method="GET" action="{{ route('members.search') }}" class="mb-6 max-w-2xl mx-auto">
                 <div class="relative flex items-center gap-3">
                     <!-- Search Input -->
@@ -46,8 +33,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                @foreach($users as $user)
                 <!-- User Card -->
+                @foreach($users as $user)
                     <div class="bg-white rounded-md dark:bg-gray-800 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl">
                         <div class="p-6">
                             <div class="flex flex-col space-y-4">
@@ -66,15 +53,15 @@
 
                                 <!-- Follow Button -->
 
-                                <a href="users/send_request/{{$user->id}}">
-                                    <button class="flex items-center justify-right gap-2 px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 bg-indigo-500 text-black hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-700 w-full sm:w-auto">
-
+                                <form action="/users/send_request/{{$user->id}}" method="POST" class="inline">
+                                    @csrf <!-- CSRF token for security -->
+                                    <button type="submit" class="flex items-center justify-right gap-2 px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 bg-indigo-500 text-black hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-700 w-full sm:w-auto">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M12 5v14M5 12h14"/>
                                         </svg>
                                         Add Friend
                                     </button>
-                                </a>
+                                </form>
 
                                 <!-- Bio Section -->
                                 <div>
@@ -87,8 +74,6 @@
                     </div>
                 @endforeach
                 <!-- End User Card -->
-
-                <!-- Repeat the card structure for more users -->
             </div>
         </div>
     </div>

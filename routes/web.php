@@ -13,10 +13,9 @@ Route::get('/', function () {
 //})->name('users');
 
 Route::get('/users',[ProfileController::class,'show'])->name('users')->middleware('auth');
-
 Route::get('/users/search', [MemberController::class, 'search'])->name('members.search');
-
-Route::get('users/send_request/{user_id}', [FriendRequestController::class, 'send_request'])->name('send_request');
+Route::post('users/send_request/{user_id}', [FriendRequestController::class, 'send_request'])->name('send_request');
+Route::get('/requests', [FriendRequestController::class, 'show_requests'])->name('show_requests');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
