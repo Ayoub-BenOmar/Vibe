@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\MemberController;
-use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\FriendsController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FriendRequestController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,6 +21,8 @@ Route::get('/requests', [FriendRequestController::class, 'show_requests'])->name
 Route::post('/requests/accept/{user_id}', [FriendRequestController::class, 'accept_request'])->name('accept_request');
 Route::post('/request/reject/{user_id}', [FriendRequestController::class, 'reject_request'])->name('reject_request');
 Route::get('/friends', [FriendsController::class, 'show_friends'])->name('show_friends');
+Route::post('/dashboard', [PostController::class, 'createPost'])->name('create_post');
+Route::get('/dashboard/posts', [PostController::class, 'showPosts'])->name('showPosts');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

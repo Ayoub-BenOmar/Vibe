@@ -55,7 +55,7 @@
             <!-- Post Creation Form (Compact) -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-4">
                 <div class="p-4">
-                    <form method="POST" action="" enctype="multipart/form-data">
+                    <form method="POST" action="{{route('create_post')}}" enctype="multipart/form-data">
                         @csrf
 
                         <!-- Textarea with placeholder -->
@@ -76,13 +76,13 @@
                         <!-- Controls Row -->
                         <div class="flex justify-between items-center">
                             <!-- Image Upload Button -->
-                            <label for="image" class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400">
+                            <label for="image" class="inline-flex items-center text-sm text-black dark:text-gray-400 cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                                 {{ __('Add Photo') }}
                             </label>
-                            <input type="file" id="image" name="image" accept="image/*" class="hidden" />
+                            <input type="file" id="image" name="post_pic" accept="image/*" class="hidden" />
 
                             <!-- Post Button -->
                             <button
@@ -94,8 +94,9 @@
                         </div>
                     </form>
                 </div>
-            </div>
-
+            </div>  
+            
+            @foreach ($posts as $post)
             <!-- Posts Feed (Placeholder - Add your actual posts loop here) -->
             <div class="space-y-4">
                 <!-- Sample Post (Remove this and replace with your actual posts loop) -->
@@ -103,18 +104,18 @@
                     <div class="p-4 sm:p-6">
                         <div class="flex items-center space-x-3 mb-3 gap-4">
                             <img class="h-6 w-6 object-cover rounded-full"
-                                 src="{{asset('/storage/' . Auth::user()->profile_photo)}}"
-                                 alt="{{ Auth::user()->name }}">
+                                 src="{{asset('/storage/' . $post->profile_photo)}}"
+                                 alt="{{$post->name }}">
                             <div>
-                                <h4 class="font-medium text-gray-900 dark:text-gray-100">{{ Auth::user()->name }}</h4>
+                                <h4 class="font-medium text-gray-900 dark:text-gray-100">{{ $post->name }}</h4>
                                 <p class="text-xs text-gray-500 dark:text-gray-400">Posted 2 hours ago</p>
                             </div>
                         </div>
                         <p class="text-gray-600 dark:text-gray-300 mb-3">
-                            This is a sample post. Your actual posts will appear here when you create them.
+                            {{$post->content}}                        
                         </p>
                         <!-- Sample post image (optional) -->
-                        <img src="/api/placeholder/400/320" alt="Post image" class="w-full h-auto rounded-lg mb-3">
+                        <img src="{{asset('/storage/' . $post->post_pic)}}" alt="Post image" class="w-full h-auto rounded-lg mb-3">
 
                         <!-- Interaction buttons -->
                         <div class="flex gap-4 space-x-4 text-sm text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
@@ -139,7 +140,7 @@
                         </div>
                     </div>
                 </div>
-
+                @endforeach
                 <!-- Add more posts here or implement a loop -->
             </div>
         </div>
