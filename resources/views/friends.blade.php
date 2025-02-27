@@ -54,7 +54,7 @@
 
                                     <!-- Username and Name -->
                                     <div>
-                                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100">@ {{ $friend->friend_username }}</h3>
+                                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100">{{'@' . $friend->friend_username }}</h3>
                                         <p class="text-gray-500 dark:text-gray-400">{{ $friend->friend_name }}</p>
                                     </div>
 
