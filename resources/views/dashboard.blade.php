@@ -102,16 +102,40 @@
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-4 sm:p-6">
                         <!-- User info and timestamp - unchanged -->
-                        <div class="flex items-center space-x-3 mb-3 gap-4">
-                            <img class="h-6 w-6 object-cover rounded-full"
-                                 src="{{asset('/storage/' . $post->profile_photo)}}"
-                                 alt="{{$post->name }}">
-                            <div>
-                                <h4 class="font-medium text-gray-900 dark:text-gray-100">{{ $post->name }}</h4>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">{{$post->created_at->diffForHumans()}}</p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center space-x-3 mb-3 gap-4">
+                                <a href="{{ route('users.show', $post->user_id) }}"" class="block">
+                                    <img class="h-12 w-12 object-cover rounded-full border-2 border-gray-200 dark:border-gray-700 shadow-sm hover:border-blue-400 transition-colors duration-200"
+                                        src="{{asset('/storage/' . $post->profile_photo)}}"
+                                        alt="{{$post->name }}">
+                                </a>
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-gray-100">{{ $post->name }}</h4>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">{{$post->created_at->diffForHumans()}}</p>
+                                </div>
                             </div>
-                        </div>
                         
+                            @if ($post->user_id === auth()->id())
+                                <div class="flex space-x-2">
+                                    <!-- Edit Button -->
+                                    <a href="{{ route('posts.edit', $post) }}" 
+                                       class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-black font-medium rounded-md shadow-sm transition-colors duration-200 text-sm">
+                                       Edit
+                                    </a>
+                        
+                                    <!-- Delete Button -->
+                                    <form action="{{ route('posts.destroy', $post) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" 
+                                                class="px-4 py-2 bg-red-500 hover:bg-red-600 text-black font-medium rounded-md shadow-sm transition-colors duration-200 text-sm"
+                                                onclick="return confirm('Are you sure you want to delete this post?')">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        </div>
                         <!-- Post content - unchanged -->
                         <p class="text-gray-600 dark:text-gray-300 mb-3">
                             {{$post->content}}                        
