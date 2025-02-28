@@ -97,11 +97,11 @@
             </div>  
 
             @foreach ($posts as $post)
-            <!-- Posts Feed (Placeholder - Add your actual posts loop here) -->
+            <!-- Posts Feed -->
             <div class="space-y-4 mt-4">
-                <!-- Sample Post (Remove this and replace with your actual posts loop) -->
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-4 sm:p-6">
+                        <!-- User info and timestamp - unchanged -->
                         <div class="flex items-center space-x-3 mb-3 gap-4">
                             <img class="h-6 w-6 object-cover rounded-full"
                                  src="{{asset('/storage/' . $post->profile_photo)}}"
@@ -111,43 +111,72 @@
                                 <p class="text-xs text-gray-500 dark:text-gray-400">{{$post->created_at->diffForHumans()}}</p>
                             </div>
                         </div>
+                        
+                        <!-- Post content - unchanged -->
                         <p class="text-gray-600 dark:text-gray-300 mb-3">
                             {{$post->content}}                        
                         </p>
-                        <!-- Sample post image (optional) -->
+                        
+                        <!-- Post image (if any) - unchanged -->
                         <img src="{{asset('/storage/' . $post->post_pic)}}" alt="Post image" class="w-auto h-auto rounded-lg mb-3">
-
-                        <!-- Interaction buttons -->
-                        <div class="flex gap-4 space-x-4 text-sm text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
-                            <form action="{{ route('posts.like', $post) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="flex items-center space-x-1 hover:text-indigo-600 dark:hover:text-indigo-400">
+            
+                        <!-- Interaction section - UPDATED -->
+                        <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
+                            <!-- Likes and Share buttons in the same line -->
+                            <div class="flex justify-between items-center mb-3 gap-4">
+                                <div class="flex items-center gap-6">
+                                    <form action="{{ route('posts.like', $post) }}" method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit" class="flex items-center gap-1 text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400 transition">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                                            </svg>
+                                            <span>Like</span>
+                                        </button>
+                                    </form>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400">{{ $post->likes_count }} Likes</span>
+                                </div>
+                                
+                                <button class="flex items-center gap-1 text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400 transition">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                                     </svg>
-                                    <span>Like</span>
+                                    <span>Share</span>
                                 </button>
-                            </form>
-                            <p>{{ $post->likes_count }} Likes</p>
-
-                            <button class="flex items-center space-x-1 hover:text-indigo-600 dark:hover:text-indigo-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                </svg>
-                                <span>Comment</span>
-                            </button>
-                            <button class="flex items-center space-x-1 hover:text-indigo-600 dark:hover:text-indigo-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                </svg>
-                                <span>Share</span>
-                            </button>
+                            </div>
+                            
+                            <!-- Comments section below -->
+                            <div class="mt-4">
+                                <!-- Display existing comments -->
+                                @if($post->comments->count() > 0)
+                                    <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 mb-3">
+                                        @foreach ($post->comments as $comment)
+                                            <div class="comment mb-3 p-2 {{ !$loop->last ? 'border-b border-gray-200 dark:border-gray-700' : '' }}">
+                                                <div class="flex items-center gap-2 mb-1">
+                                                    <img src="{{ asset('/storage/' . $comment->user->profile_photo) }}" alt="{{ $comment->user->name }}" class="w-5 h-5 rounded-full">
+                                                    <p class="font-medium text-sm text-gray-900 dark:text-gray-100">{{ $comment->user->name }}</p>
+                                                    <span class="text-xs text-gray-500 dark:text-gray-400">{{ $comment->created_at->diffForHumans() }}</span>
+                                                </div>
+                                                <p class="text-sm text-gray-700 dark:text-gray-300 pl-7">{{ $comment->content }}</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+            
+                                <!-- Add comment form -->
+                                <form action="{{ route('comments.store', $post) }}" method="POST" class="mt-2">
+                                    @csrf
+                                    <div class="flex gap-2">
+                                        <textarea name="content" rows="1" class="w-full p-2 text-sm border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Write a comment..."></textarea>
+                                        <button type="submit" class="px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-black text-sm font-medium rounded-lg transition">Comment</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            @endforeach
-                <!-- Add more posts here or implement a loop -->
             </div>
+            @endforeach
         </div>
     </div>
 </x-app-layout>

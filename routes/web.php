@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\LikeController;
+use App\Http\Controllers\FriendRequestController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,6 +28,7 @@ Route::get('/friends', [FriendsController::class, 'show_friends'])->name('show_f
 Route::post('/dashboard', [PostController::class, 'createPost'])->name('create_post');
 Route::get('/dashboard',[DashboardController::class , 'index'])->name('dashboard');
 Route::post('/posts/{post}/like', [LikeController::class, 'storeLikes'])->name('posts.like')->middleware('auth');
+Route::post('/posts/{post}/comments', [CommentController::class, 'storeComment'])->name('comments.store');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

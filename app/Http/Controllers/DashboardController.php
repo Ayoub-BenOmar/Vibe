@@ -15,6 +15,7 @@ class DashboardController extends Controller
         ->whereIn('posts.user_id', $userIds)
         ->select('posts.*', 'users.name as name', 'users.username as username', 'users.profile_photo as profile_photo') // Select the columns you need
         ->withCount('likes')
+        ->with(['user', 'likes', 'comments.user'])
         ->latest('posts.created_at')
         ->get();
         return view('dashboard',compact('posts'));

@@ -27,13 +27,21 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $user->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
+        // handle the profile image upload
+        if($request->hasFile('profile_photo')){
+            $image = $request->file('profile_photo');
+            $imageName = time() . '.' . $image->extension();
+            $imagePath = $request->file('profile_photo')->storeAs('uploads', $imageName, 'public');
 
-        $request->user()->save();
+            $user->profile_photo = $imagePath;
+        };
+        $request->user()->save();   
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -58,6 +66,7 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
     public function show(Request $request): View{
        $users= User::where('users.id', '!=', auth()->id())->get();
         return view('users', compact('users'));
