@@ -31,7 +31,7 @@
                         </div>
 
                         <!-- Right: Edit Button -->
-                        <a href="#" class="text-xs text-indigo-600 dark:text-indigo-400 hover:underline">
+                        <a href="{{route('profile.edit')}}" class="text-xs text-indigo-600 dark:text-indigo-400 hover:underline">
                             {{ __('Edit Profile') }}
                         </a>
                     </div>
@@ -95,10 +95,10 @@
                     </form>
                 </div>
             </div>  
-            
+
             @foreach ($posts as $post)
             <!-- Posts Feed (Placeholder - Add your actual posts loop here) -->
-            <div class="space-y-4">
+            <div class="space-y-4 mt-4">
                 <!-- Sample Post (Remove this and replace with your actual posts loop) -->
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-4 sm:p-6">
@@ -108,23 +108,28 @@
                                  alt="{{$post->name }}">
                             <div>
                                 <h4 class="font-medium text-gray-900 dark:text-gray-100">{{ $post->name }}</h4>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">Posted 2 hours ago</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">{{$post->created_at->diffForHumans()}}</p>
                             </div>
                         </div>
                         <p class="text-gray-600 dark:text-gray-300 mb-3">
                             {{$post->content}}                        
                         </p>
                         <!-- Sample post image (optional) -->
-                        <img src="{{asset('/storage/' . $post->post_pic)}}" alt="Post image" class="w-full h-auto rounded-lg mb-3">
+                        <img src="{{asset('/storage/' . $post->post_pic)}}" alt="Post image" class="w-auto h-auto rounded-lg mb-3">
 
                         <!-- Interaction buttons -->
                         <div class="flex gap-4 space-x-4 text-sm text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
-                            <button class="flex items-center space-x-1 hover:text-indigo-600 dark:hover:text-indigo-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-                                </svg>
-                                <span>Like</span>
-                            </button>
+                            <form action="{{ route('posts.like', $post) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="flex items-center space-x-1 hover:text-indigo-600 dark:hover:text-indigo-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                                    </svg>
+                                    <span>Like</span>
+                                </button>
+                            </form>
+                            <p>{{ $post->likes_count }} Likes</p>
+
                             <button class="flex items-center space-x-1 hover:text-indigo-600 dark:hover:text-indigo-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -140,7 +145,7 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
+            @endforeach
                 <!-- Add more posts here or implement a loop -->
             </div>
         </div>

@@ -33,12 +33,14 @@ class PostController extends Controller
     public function showPosts()
     {
         $friends = auth()->user()->friends()->pluck('id');
-        $posts = Post::whereIn('user_id', $friends)
+        $userIds = $friends->push(auth()->id());
+        
+        $posts = Post::whereIn('user_id', $userIds)
             ->with('user')
             ->latest('created_at')
             ->get();
-            
-        return view('dashboard', compact('posts'));
+        
+        return view('dashboard', compact('posts') );
     }
 
 }

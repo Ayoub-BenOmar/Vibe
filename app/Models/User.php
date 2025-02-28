@@ -58,15 +58,26 @@ class User extends Authenticatable
         return $this->hasMany(friend_request::class, 'receiver_id');
     }
 
-    public function friends(){
-        return $this->whereHas('sentRequests', function ($q) {
-            $q->where('receiver_id', Auth::id())
-              ->where('status', 'accepted');
-        })
-        ->orWhereHas('receivedRequests', function ($q) {
-            $q->where('sender_id', Auth::id())
-              ->where('status', 'accepted');
-        });
+    public function friends()
+    {
+        // Get IDs of friends where user is the sender
+        $friendIds1 = $this->sentRequests()
+                          ->where('status', 'accepted')
+                          ->pluck('receiver_id');
+                          
+        // Get IDs of friends where user is the receiver
+        $friendIds2 = $this->receivedRequests()
+                          ->where('status', 'accepted')
+                          ->pluck('sender_id');
+                          
+        // Combine IDs and get the User models
+        $friendIds = $friendIds1->merge($friendIds2);
+        
+        return User::whereIn('id', $friendIds);
+    }
+
+    public function likes() {
+        return $this->hasMany(Like::class);
     }
 
 }
